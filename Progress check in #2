@@ -59,3 +59,15 @@ Function: validate_input(user_input)
 5. Main Program File - main.py
 Function: main()
 
+
+Test file:
+
+The main way a user could use this progam would be by inputing their behavioral metrics data into terminal (after being promted), which would eventually output the individual threshold level of that animal. 
+Here is some example data that they could run: 
+Enter the number of trials: 100
+Enter the number of hits: 70
+Enter the number of false alarms: 15
+Enter the number of correct rejections: 80
+Enter the number of misses: 5
+
+
