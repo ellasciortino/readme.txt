@@ -71,3 +71,5 @@ Enter the number of correct rejections: 80
 Enter the number of misses: 5
 
 
+Notes: I would like to have a visual graph that shows the threshold value not quite sure yet if I will use tkinter/something else or if that will be too difficult to do.
+
