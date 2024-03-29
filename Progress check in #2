@@ -1,0 +1,61 @@
+Project Report#2
+
+"Sales Pitch"
+This program, ThresholdAnalyzer, is designed to analyze behavioral metrics obtained from experimental trials and calculate a threshold for the animal based on these metrics.
+By inputting data such as reaction time, number of trials, correct responses, false alarms, correct rejections, and missed responses, users can obtain a threshold value that represents the animal's performance level.
+Functions/Methods Overview
+calculate_criterion(data): Calculate the threshold criterion based on the provided behavioral data.
+load_data(file_path): Load behavioral data from a file into the program.
+save_threshold(threshold, file_path): Save the calculated threshold to a file for future reference.
+Argument Options
+calculate_criterion(data):
+
+data: Dictionary containing behavioral metrics (reaction time, number of trials, correct responses, false alarms, correct rejections, missed responses).
+load_data(file_path):
+
+file_path: Path to the file containing behavioral data.
+save_threshold(threshold, file_path):
+
+threshold: Calculated threshold value.
+file_path: Path to the file where the threshold will be saved.
+Example Use Cases
+Case 1: Calculating Threshold
+
+data = {
+    'reaction_time': 300, 
+    'num_trials': 100, 
+    'correct_responses': 80, 
+    'false_alarms': 5, 
+    'correct_rejections': 10, 
+    'missed_responses': 5
+}
+threshold = calculate_criterion(data)
+print("Threshold for the animal:", threshold)
+Data Structure Requirements
+The input data should be provided in the form of a dictionary with the following keys: 
+'reaction_time', 'num_trials', 'correct_responses', 'false_alarms', 'correct_rejections', 'missed_responses'.
+
+
+
+Python Script File:
+
+1. Data Collection Module - data_input.py
+Function: get_user_input()
+
+2. Calculation Module - data_analysis.py
+Function: calculate_threshold(hits, correct_rejections, false_alarms, misses)
+
+Function: calculate_hit_rate(hits, misses)
+
+Function: calculate_false_alarm_rate(false_alarms, correct_rejections)
+
+3. Visualization Module - data_visualization.py 
+Function/Class: plot_behavioral_data(hit_rates, correct_responses)
+
+4. Utility Module - utils.py
+Function: validate_input(user_input)
+
+
+5. Main Program File - main.py
+Function: main()
+
