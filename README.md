@@ -1,5 +1,13 @@
 # readme.txt
 bcog200 final project
+
+
+Update: 
+
+Please download the csv file under the project repository. The data in that file will be used to pring out various graphs!
+
+Please update the path in the main function to match your computers path to the file. 
+
 1) My breif project description: 
   Objective: I want to take behavioral data (False Alarm rates, Correct Rejections, HITs, Misses, and Trial count) to find the individual threshold for each rodent. This should be useful in behavioral detection paradigms, to figure out when the rodent can accurately percieve a stimulus (ie. auditory tone, tactile stimuli, smell etc.) I plan to have the user imput the behavioral data listed above. Implement an algorith that will take that data and output the animals threshold data to the user. 
 
