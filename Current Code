@@ -1,0 +1,142 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def prompt_user():
+    """
+    Prompt the user to select two out of the four rat names provided.
+
+    Returns:
+    - list: A list containing the selected rat names.
+    """
+    print("Please select two out of the following rat names:")
+    rat_names = ["Orange11", "Orange12", "Green11", "Green12"]
+    print("1. " + rat_names[0])
+    print("2. " + rat_names[1])
+    print("3. " + rat_names[2])
+    print("4. " + rat_names[3])
+    selection = input("Enter the numbers corresponding to the rat names (separated by comma): ")
+    selected_indices = [int(i) - 1 for i in selection.split(",")]
+    selected_rats = [rat_names[i] for i in selected_indices]
+    return selected_rats
+
+def calculate_dprime(hit_rate, false_alarm_rate):
+    """
+    Calculate the d' prime value using hit rate and false alarm rate.
+
+    Parameters:
+    - hit_rate (float): The hit rate.
+    - false_alarm_rate (float): The false alarm rate.
+
+    Returns:
+    - float: The calculated d' prime value.
+    """
+    d_prime = hit_rate - false_alarm_rate
+    return d_prime
+
+def plot_dprime_comparison(data, selected_rats):
+    """
+    Plot the d' prime comparison between selected rats.
+
+    Parameters:
+    - data (DataFrame): The dataframe containing the data.
+    - selected_rats (list): A list containing the selected rat names.
+    """
+    plt.figure(figsize=(10, 6))
+    for rat_name in selected_rats:
+        rat_data = data[data["rat_name"] == rat_name]
+        plt.plot(rat_data["dB"], rat_data["dprime"], label=rat_name)
+    plt.xlabel("dB Level")
+    plt.ylabel("d' Prime")
+    plt.title("d' Prime Comparison")
+    plt.legend()
+    plt.show()
+
+def plot_genotype_comparison(data, selected_rats):
+    """
+    Plot the genotype comparison between selected rats.
+
+    Parameters:
+    - data (DataFrame): The dataframe containing the data.
+    - selected_rats (list): A list containing the selected rat names.
+    """
+    plt.figure(figsize=(8, 5))
+    for rat_name in selected_rats:
+        rat_data = data[data["rat_name"] == rat_name]
+        plt.scatter(rat_data["genotype"], rat_data["dprime"], label=rat_name)
+    plt.xlabel("Genotype")
+    plt.ylabel("d' Prime")
+    plt.title("Genotype Comparison")
+    plt.legend()
+    plt.show()
+
+def plot_hit_false_alarm(data, selected_rats):
+    """
+    Plot the Hit Rate vs. False Alarm Rate scatter plot.
+
+    Parameters:
+    - data (DataFrame): The dataframe containing the data.
+    - selected_rats (list): A list containing the selected rat names.
+    """
+    plt.figure(figsize=(8, 5))
+    for rat_name in selected_rats:
+        rat_data = data[data["rat_name"] == rat_name]
+        plt.scatter(rat_data["hit_percent"], rat_data["FA_percent"], label=rat_name)
+    plt.xlabel("Hit Rate (%)")
+    plt.ylabel("False Alarm Rate (%)")
+    plt.title("Hit Rate vs. False Alarm Rate")
+    plt.legend()
+    plt.show()
+
+def plot_learning_curve(data, selected_rats):
+    """
+    Plot the learning curve for selected rats.
+
+    Parameters:
+    - data (DataFrame): The dataframe containing the data.
+    - selected_rats (list): A list containing the selected rat names.
+    """
+    plt.figure(figsize=(10, 6))
+    for rat_name in selected_rats:
+        rat_data = data[data["rat_name"] == rat_name]
+        plt.plot(rat_data["HL_date"], rat_data["dprime"], label=rat_name)
+    plt.xlabel("Date")
+    plt.ylabel("d' Prime")
+    plt.title("Learning Curve")
+    plt.legend()
+    plt.show()
+
+def main():
+    # Load the data from the CSV file
+    data = pd.read_csv("C:\\Users\\escior2\\Downloads\\TTS_data_exported_20240419.csv")
+
+    # Prompt the user to select two out of the four rat names
+    selected_rats = prompt_user()
+
+    # Filter the data for the selected rats
+    filtered_data = data[data["rat_name"].isin(selected_rats)]
+
+    # Calculate and report individual d' prime, reaction time, false alarm rate, etc. for each rat
+    for rat_name in selected_rats:
+        rat_data = filtered_data[filtered_data["rat_name"] == rat_name]
+        d_prime = rat_data["dprime"].mean()
+        reaction_time = rat_data["Rxn"].mean()
+        false_alarm_rate = rat_data["FA_percent"].mean()
+        print("\nReport for", rat_name)
+        print("Mean d' prime:", d_prime)
+        print("Mean Reaction Time:", reaction_time)
+        print("Mean False Alarm Rate:", false_alarm_rate)
+
+    # Plot d' prime comparison
+    plot_dprime_comparison(filtered_data, selected_rats)
+
+    # Plot genotype comparison
+    plot_genotype_comparison(filtered_data, selected_rats)
+
+    # Plot Hit Rate vs. False Alarm Rate scatter plot
+    plot_hit_false_alarm(filtered_data, selected_rats)
+
+    # Plot learning curve
+    plot_learning_curve(filtered_data, selected_rats)
+
+if __name__ == "__main__":
+    main()
