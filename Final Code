@@ -1,3 +1,4 @@
+import os 
 import pandas as pd
 import matplotlib.pyplot as plt
 
@@ -14,10 +15,14 @@ def prompt_user():
     print("2. " + rat_names[1])
     print("3. " + rat_names[2])
     print("4. " + rat_names[3])
-    selection = input("Enter the numbers corresponding to the rat names (separated by comma): ")
-    selected_indices = [int(i) - 1 for i in selection.split(",")]
-    selected_rats = [rat_names[i] for i in selected_indices]
-    return selected_rats
+    while True:
+        selection = input("Enter the numbers [1-4] corresponding to the rat names (separated by comma): ")
+        selected_indices = [int(i.strip()) - 1 for i in selection.split(",") if i.strip().isdigit()]
+        if len(selected_indices) == 2:
+            selected_rats = [rat_names[i] for i in selected_indices]
+            return selected_rats
+        else:
+            print("Please enter exactly two valid numbers separated by commas.")
 
 def calculate_dprime(hit_rate, false_alarm_rate):
     """
@@ -87,27 +92,16 @@ def plot_hit_false_alarm(data, selected_rats):
     plt.legend()
     plt.show()
 
-def plot_learning_curve(data, selected_rats):
-    """
-    Plot the learning curve for selected rats.
-
-    Parameters:
-    - data (DataFrame): The dataframe containing the data.
-    - selected_rats (list): A list containing the selected rat names.
-    """
-    plt.figure(figsize=(10, 6))
-    for rat_name in selected_rats:
-        rat_data = data[data["rat_name"] == rat_name]
-        plt.plot(rat_data["HL_date"], rat_data["dprime"], label=rat_name)
-    plt.xlabel("Date")
-    plt.ylabel("d' Prime")
-    plt.title("Learning Curve")
-    plt.legend()
-    plt.show()
 
 def main():
+    # Get the current directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Construct the path to the CSV file
+    csv_file_path = os.path.join(current_dir, "TTS_data_exported_20240419.csv")
+
     # Load the data from the CSV file
-    data = pd.read_csv("C:\\Users\\escior2\\Downloads\\TTS_data_exported_20240419.csv")
+    data = pd.read_csv(csv_file_path)
 
     # Prompt the user to select two out of the four rat names
     selected_rats = prompt_user()
@@ -128,15 +122,16 @@ def main():
 
     # Plot d' prime comparison
     plot_dprime_comparison(filtered_data, selected_rats)
+    print("The d' prime comparison graph illustrates the sensitivity of each selected rat to the stimulus. Higher values indicate better discrimination ability.")
 
     # Plot genotype comparison
     plot_genotype_comparison(filtered_data, selected_rats)
+    print("The genotype comparison graph shows how the genetic makeup of each selected rat correlates with its sensitivity to the stimulus. While the current data may show similar genotypes, this comparison becomes more interesting when comparing rats with different genotypes.")
 
     # Plot Hit Rate vs. False Alarm Rate scatter plot
     plot_hit_false_alarm(filtered_data, selected_rats)
+    print("The Hit Rate vs. False Alarm Rate scatter plot demonstrates the trade-off between correctly detecting a signal (hit rate) and incorrectly identifying noise as a signal (false alarm rate).")
 
-    # Plot learning curve
-    plot_learning_curve(filtered_data, selected_rats)
 
 if __name__ == "__main__":
     main()
